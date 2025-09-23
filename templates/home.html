@@ -18,13 +18,20 @@
           <a href="/add_author">
             <button type="button">Add New Author</button>
         </a>
+        <a href="{{ url_for('sort_books', by='title') }}">
+            <button type="button">Sort by Title</button>
+        </a>
+          <a href="{{ url_for('sort_books', by='author') }}">
+            <button type="button">Sort by Author</button>
+        </a>
     </div>
 
+  
 
     <ol class="books-grid">
       {% for book in books %}
-      {% for author in authors %}
-        {% if author.author_id == book.author_id %}
+     
+       
         <li>
            <div class="book"> 
     <div class="title-name"> 
@@ -32,23 +39,23 @@
               src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
               alt="Book Cover" />
 
-        
        <div class="book-info">
         <div class="title">
           <h3>{{ book.title }}</h3>
         </div>
         <div class="name">
-          <p>{{ author.name }}</p>
+          <p>{{ book.author.name }}</p>
         </div>
+        <div class="delete" >
                 <form action="/book/{{ book.book_id }}/delete" method="POST">
-            <input type="submit" value="Delete">
-        </form>
+                <input type="submit" value="Delete">
+                </form>
+                </div>
       </div>
     </div>
   </div>
 </li>
-    {% endif %}
-    {% endfor %}
+  
  {% endfor %}
 </ol>
 

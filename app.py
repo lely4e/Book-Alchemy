@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from models.data_models import db, Author, Book
 from datetime import datetime
+from sqlalchemy.orm import joinedload
 
 # Create Flask app
 app = Flask(__name__)
@@ -17,11 +18,47 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 db.init_app(app)
 
 
+def sort_by(by):
+    books = (
+        db.session.query(Book)
+        .join(Book.author)
+        .options(joinedload(Book.author))
+        .order_by(by)  # Author.name
+        .all()
+    )
+    return books
+
+
+# @app.route("/sort_by_author")
+# def sort_by_author():
+#     books = sort_by(Author.name)
+#     return render_template("home.html", books=books)
+
+
+# @app.route("/sort_by_title")
+# def sort_by_title():
+#     books = sort_by(Book.title)
+#     return render_template("home.html", books=books)
+
+
+@app.route("/sort")
+def sort_books():
+    sorted_by = request.args.get("by", "choice")
+    if sorted_by == "author":
+        choice = Author.name
+    else:
+        choice = Book.title
+
+    books = sort_by(choice)
+    return render_template("home.html", books=books)
+
+
 @app.route("/home", methods=["GET"])
 def home():
-    return render_template(
-        "home.html", books=Book.query.all(), authors=Author.query.all()
+    books = (
+        db.session.query(Book).join(Book.author).options(joinedload(Book.author)).all()
     )
+    return render_template("home.html", books=books)
 
 
 @app.route("/add_author", methods=["GET", "POST"])
