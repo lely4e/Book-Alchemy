@@ -1,0 +1,48 @@
+.book_poster {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    width: 80px;
+    height: auto;
+
+}
+
+.books-grid {
+    list-style-type: none;
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.books-grid li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 250px;
+
+}
+
+.title-name {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.title h3 {
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.name p {
+    margin: 5px 0 0 0;
+    color: #555;
+    font-size: 0.95em;
+}
