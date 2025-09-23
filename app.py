@@ -4,6 +4,7 @@ import os
 from models.data_models import db, Author, Book
 from datetime import datetime
 from sqlalchemy.orm import joinedload
+from logic.sorted import sort_by
 
 # Create Flask app
 app = Flask(__name__)
@@ -16,29 +17,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 
 # Initialize database with app
 db.init_app(app)
-
-
-def sort_by(by):
-    books = (
-        db.session.query(Book)
-        .join(Book.author)
-        .options(joinedload(Book.author))
-        .order_by(by)  # Author.name
-        .all()
-    )
-    return books
-
-
-# @app.route("/sort_by_author")
-# def sort_by_author():
-#     books = sort_by(Author.name)
-#     return render_template("home.html", books=books)
-
-
-# @app.route("/sort_by_title")
-# def sort_by_title():
-#     books = sort_by(Book.title)
-#     return render_template("home.html", books=books)
 
 
 @app.route("/sort")
@@ -129,8 +107,3 @@ def delete_book(book_id):
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5001, debug=True)
-
-
-# name = 'John Ronald Reuel Tolkien',
-#         birth_date = '1892-01-03',
-#         date_of_death = '1973-09-02',
