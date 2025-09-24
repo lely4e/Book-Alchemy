@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from sqlalchemy import or_
 from flask_sqlalchemy import SQLAlchemy
 import os
 from models.data_models import db, Author, Book
@@ -19,9 +20,27 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 db.init_app(app)
 
 
+def search_by(text):
+    books = (
+        db.session.query(Book)
+        .join(Book.author)
+        .options(joinedload(Book.author))
+        .filter(or_(Author.name.ilike(f"%{text}%"), Book.title.ilike(f"%{text}%")))
+        .all()
+    )
+    return books
+
+
+@app.route("/search", methods=["GET"])
+def search_books():
+    search_text = request.args.get("search", "")
+    books = search_by(search_text)
+    return render_template("home.html", books=books)
+
+
 @app.route("/sort")
 def sort_books():
-    sorted_by = request.args.get("by", "choice")
+    sorted_by = request.args.get("by", "title")
     if sorted_by == "author":
         choice = Author.name
     else:
