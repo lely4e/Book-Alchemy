@@ -2,7 +2,6 @@
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     width: 80px;
     height: auto;
-
 }
 
 .add {
@@ -14,22 +13,17 @@
     justify-content: left;
 }
 
-h1 {
+h1, h4 {
+    padding-left: 80px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    
+    justify-content: left;
 }
 
 .delete {
-    
     margin-top: 20px;
     display: flex;
- 
-    
     justify-content: left;
-
-
 }
 
 .books-grid {
@@ -48,7 +42,6 @@ h1 {
     border-radius: 8px;
     padding: 10px;
     width: 250px;
-
 }
 
 .title-name {
@@ -72,4 +65,8 @@ h1 {
     margin: 5px 0 0 0;
     color: #555;
     font-size: 0.95em;
+}
+
+.normal-heading {
+  font-weight: normal;  
 }
